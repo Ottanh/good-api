@@ -49,7 +49,7 @@ const addStatsFromGames = async (player, games) => {
   }
 
   // Increment player's record by values in 'playerStats'
-  Stats.updateOne({ _id: player }, { $inc: {
+  await Stats.updateOne({ _id: player }, { $inc: {
     wins: playerStats.wins,
     games: playerStats.games,
     ROCK: playerStats.ROCK,

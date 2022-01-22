@@ -25,7 +25,7 @@ const Games = mongoose.model('Games', playerGamesSchema);
  */
 const addGames = async (player, games) => {
   // Push games to player's record.
-  Games.updateOne({ _id: player }, { $addToSet: { games: games } }, { upsert: true, new: true }, function (err) {
+  await Games.updateOne({ _id: player }, { $addToSet: { games: games } }, { upsert: true, new: true }, function (err) {
     if (err) {
       if (err.code === 11000) {
         // Another upsert occurred during the upsert, try again.
