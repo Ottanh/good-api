@@ -9,7 +9,7 @@ const playerGamesSchema = new mongoose.Schema({
 const Games = mongoose.model('Games', playerGamesSchema);
 
 /**
- * Add all games to player.
+ * Add all games to player's record.
  */
 const addGames = (player, games) => {
   // Find player and push games to their record.
@@ -30,20 +30,6 @@ const addGames = (player, games) => {
   });
 };
 
-/**
- * Used when initially fetching historical data.
- */
-const addGamesInitial = (player, games) => {
-  const game = new Games({
-    _id: player,
-    games: games
-  });
-
-  game.save()
-    .then(() => {
-      console.log('games saved!');
-    });
-};
 
 router.get('/games/:id', (req, res) => {
   Games.findById(req.params.id)

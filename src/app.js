@@ -12,10 +12,8 @@ require('dotenv').config();
 mongoose.connect(process.env.MONGODB_URI);
 
 if(process.argv[2] === '--fetchHistory'){
-  fetchCompleteHistory()
-    .then(() => {
-      webSocketConnection()
-    });
+  fetchCompleteHistory('/rps/history');
+  webSocketConnection();
   
 } else {
   webSocketConnection();
@@ -27,9 +25,9 @@ app.get('/', (req, res) => {
   res.send('<h1>Good api</h1>');
 });
 
-app.use('/api', stats.router);
+app.use('/rps', stats.router);
 
-app.use('/api', games.router);
+app.use('/rps', games.router);
 
 
 app.listen(process.env.PORT, () => {

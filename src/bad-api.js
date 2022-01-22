@@ -16,15 +16,17 @@ axiosRetry(axios, {
 /**
  * Fetch the entire history from bad-api and add it to the database.
  */
-const fetchCompleteHistory = async () => {
+const fetchCompleteHistory = async (cursor) => {
   // Raw data from bad-api
   let data = [];
   // Each player and all games in fromat: {name: [all games]}
   const players = {};
 
+  console.log(cursor);
+
   // Get data from bad api
   const response = await axios
-    .get('https://bad-api-assignment.reaktor.com/rps/history');
+    .get(`https://bad-api-assignment.reaktor.com${cursor}`);
 
   let page = response.data;
   data.concat(page.data);
@@ -36,7 +38,7 @@ const fetchCompleteHistory = async () => {
     console.log(data.length);
     data = data.concat(page.data);
     j++;
-  } while (page.cursor !== null);
+  } while (page.cursor !== null && j < 100);
 
   // Refining data into 'players'
   for (let i = 0; i < data.length; i++) {
@@ -55,10 +57,15 @@ const fetchCompleteHistory = async () => {
   // Add games to database
   for (const player in players) {
     console.log(player);
-    games.addGamesInitial(player, players[player]);
-    stats.addStatsFromGamesInitial(player, players[player]);
+    games.addGames(player, players[player]);
+    stats.addStatsFromGames(player, players[player]);
     players[player] = null;
   }
+
+  if(page.cursor !== null){
+    fetchCompleteHistory(page.cursor);
+  }
+
 };
 
 /**
