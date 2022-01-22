@@ -38,4 +38,4 @@ router.get('/games/:id', (req, res) => {
     });
 });
 
-module.exports = { router, addGames, addGamesInitial };
+module.exports = { router, addGames};
