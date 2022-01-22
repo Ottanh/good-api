@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./src/app.js --fetchHistory",
+    "start": "node --max-old-space-size=700 ./src/app.js --fetchHistory",
     "quickStart": "node ./src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

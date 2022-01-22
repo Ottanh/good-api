@@ -36,7 +36,7 @@ const fetchCompleteHistory = async (cursor) => {
     console.log(data.length);
     data = data.concat(page.data);
     j++;
-  } while (page.cursor !== null && j < 100);
+  } while (page.cursor !== null && j < 70);
 
   // Refining data into 'players'
   for (let i = 0; i < data.length; i++) {
