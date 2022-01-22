@@ -4,7 +4,19 @@ const mongoose = require('mongoose');
 
 const playerGamesSchema = new mongoose.Schema({
   _id: String,
-  games: Array
+  games: [{
+    gameId: {type: String},
+    type: {type: String},
+    t: {type: Date},
+    playerA: {
+      name:{type: String},
+      played: {type: String}
+    },
+    playerB: {
+      name: {type: String},
+      played: {type: String}
+    }
+  }]
 });
 const Games = mongoose.model('Games', playerGamesSchema);
 
@@ -12,7 +24,7 @@ const Games = mongoose.model('Games', playerGamesSchema);
  * Add all games to player's record.
  */
 const addGames = (player, games) => {
-  // Find player and push games to their record.
+  // Push games to player's record.
   Games.updateOne({ _id: player }, { $addToSet: { games: games } }, { upsert: true, new: true }, function (err) {
     if (err) {
       if (err.code === 11000) {

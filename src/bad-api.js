@@ -19,17 +19,15 @@ axiosRetry(axios, {
 const fetchCompleteHistory = async (cursor) => {
   // Raw data from bad-api
   let data = [];
-  // Each player and all games in fromat: {name: [all games]}
+  // Each player and all of their games
   const players = {};
-
-  console.log(cursor);
 
   // Get data from bad api
   const response = await axios
     .get(`https://bad-api-assignment.reaktor.com${cursor}`);
-
   let page = response.data;
   data.concat(page.data);
+
   let j = 0;
   do {
     const response = await axios
@@ -65,7 +63,6 @@ const fetchCompleteHistory = async (cursor) => {
   if(page.cursor !== null){
     fetchCompleteHistory(page.cursor);
   }
-
 };
 
 /**

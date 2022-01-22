@@ -12,7 +12,6 @@ const playerStatsSchema = new mongoose.Schema({
   PAPER: Number,
   SCISSORS: Number
 });
-
 const Stats = mongoose.model('Stats', playerStatsSchema);
 
 /**
@@ -49,6 +48,7 @@ const addStatsFromGames = (player, games) => {
     playerStats[playerAB.played] += 1;
   }
 
+  // Increment player's record by values in 'playerStats'
   Stats.updateOne({ _id: player }, { $inc: {
     wins: playerStats.wins,
     games: playerStats.games,
