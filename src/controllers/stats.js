@@ -17,7 +17,7 @@ const Stats = mongoose.model('Stats', playerStatsSchema);
 /**
  * Adds stats from all games given to players's record.
  */
-const addStatsFromGames = async (player, games) => {
+const addStatsFromGames = (player, games) => {
   const playerStats = {
     _id: player,
     wins: 0,
@@ -49,7 +49,7 @@ const addStatsFromGames = async (player, games) => {
   }
 
   // Increment player's record by values in 'playerStats'
-  await Stats.updateOne({ _id: player }, { $inc: {
+  Stats.updateOne({ _id: player }, { $inc: {
     wins: playerStats.wins,
     games: playerStats.games,
     ROCK: playerStats.ROCK,

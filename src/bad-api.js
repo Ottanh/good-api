@@ -36,7 +36,7 @@ const fetchCompleteHistory = async (cursor) => {
     console.log(data.length);
     data = data.concat(page.data);
     j++;
-  } while (page.cursor !== null && j < 70);
+  } while (page.cursor !== null && j < 100);
 
   // Refining data into 'players'
   for (let i = 0; i < data.length; i++) {
@@ -55,8 +55,14 @@ const fetchCompleteHistory = async (cursor) => {
   // Add games to database
   for (const player in players) {
     console.log(player);
-    await games.addGames(player, players[player]);
-    await stats.addStatsFromGames(player, players[player]);
+    games.addGames(player, players[player]);
+    stats.addStatsFromGames(player, players[player]);
+    await sleep(1000);
+    const sleep = (ms) => {
+      return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+      });
+    }
     players[player] = null;
   }
 
