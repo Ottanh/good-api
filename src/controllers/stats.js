@@ -17,7 +17,7 @@ const Stats = mongoose.model('Stats', playerStatsSchema);
 /**
  * Adds stats from all games given to players's record.
  */
-const addStatsFromGames = (player, games) => {
+const addStatsFromGames = async (player, games) => {
   const playerStats = {
     _id: player,
     wins: 0,

@@ -23,7 +23,7 @@ const Games = mongoose.model('Games', playerGamesSchema);
 /**
  * Add all games to player's record.
  */
-const addGames = (player, games) => {
+const addGames = async (player, games) => {
   // Push games to player's record.
   Games.updateOne({ _id: player }, { $addToSet: { games: games } }, { upsert: true, new: true }, function (err) {
     if (err) {
