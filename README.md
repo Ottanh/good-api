@@ -27,4 +27,4 @@ After running `npm start` the app fetches all historical data from [bad-api](htt
 When all historical data has been saved the app continues to record live games from bad-api and thus keeping up to date.
 
 # TODO
-Add test
+Add tests
