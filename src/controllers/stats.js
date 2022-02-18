@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-const { winner } = require('../util/util');
+const { getWinner } = require('../util/util');
 
 const playerStatsSchema = new mongoose.Schema({
   _id: String,
@@ -31,19 +31,18 @@ const addStatsFromGames = (player, games) => {
   for (let i = 0; i < games.length; i++) {
     const game = games[i];
     let playerAB;
-    let win;
 
     // Check if player is playerA or playerB
-    const { a, b } = winner(game.playerA.played, game.playerB.played);
+    const winner = getWinner(game.playerA, game.playerB);
     if (player === game.playerA) {
       playerAB = game.playerA;
-      win = a;
     } else {
       playerAB = game.playerB;
-      win = b;
     }
 
-    playerStats.wins += win;
+    if(playerAB.name === winner){
+      playerStats.wins += 1;
+    }
     playerStats.games += 1;
     playerStats[playerAB.played] += 1;
   }

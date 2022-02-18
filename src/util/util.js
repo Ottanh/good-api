@@ -1,29 +1,30 @@
 
 /**
- * If a won return { a: 1, b: 0}
- * If b won return { a: 0, b: 1}
+ * If a won return a.name
+ * If b won return b.name
+ * Else return 'draw'
  */
-const winner = (a, b) => {
-  const wins = { a: 0, b: 0 };
+const getWinner = (a, b) => {
 
   // a wins
-  if (a === 'ROCK' && b === 'SCISSORS') {
-    wins.a = 1;
-  } else if (a === 'PAPER' && b === 'ROCK') {
-    wins.a = 1;
-  } else if (a === 'SCISSORS' && b === 'PAPER') {
-    wins.a = 1;
+  if (a.played === 'ROCK' && b.played === 'SCISSORS') {
+    return a.name;
+  } else if (a.played === 'PAPER' && b.played === 'ROCK') {
+    return a.name;
+  } else if (a.played === 'SCISSORS' && b.played === 'PAPER') {
+    return a.name;
   }
   // b wins
-  if (b === 'ROCK' && a === 'SCISSORS') {
-    wins.b = 1;
-  } else if (b === 'PAPER' && a === 'ROCK') {
-    wins.b = 1;
-  } else if (b === 'SCISSORS' && a === 'PAPER') {
-    wins.b = 1;
+  if (b.played === 'ROCK' && a.played === 'SCISSORS') {
+    return b.name;
+  } else if (b.played === 'PAPER' && a.played === 'ROCK') {
+    return b.name;
+  } else if (b.played === 'SCISSORS' && a.played === 'PAPER') {
+    return b.name;
   }
 
-  return wins;
+  //draw
+  return 'draw';
 };
 
-module.exports = { winner };
+module.exports = { getWinner };
