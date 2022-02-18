@@ -26,3 +26,5 @@ Returns a page with all of the player's games.
 After running `npm start` the app fetches all historical data from [bad-api](https://bad-api-assignment.reaktor.com/),  parses it, and finally adds to the database.  
 When all historical data has been saved the app continues to record live games from bad-api and thus keeping up to date.
 
+# TODO
+Add tests
