@@ -76,18 +76,11 @@ const webSocketConnection = () => {
 
     if (game.type === 'GAME_RESULT') {
       console.log(game);
-
-      const playerGames = {};
-      const playerA = game.playerA;
-      const playerB = game.playerB;
-
-      playerGames[playerA.name] = [game];
-      playerGames[playerB.name] = [game];
-
-      for (const player in playerGames) {
-        games.addGames(player, playerGames[player]);
-        stats.addStatsFromGames(player, playerGames[player]);
-      }
+      const players = [game.playerA.name, game.playerB.name];
+      players.forEach(player => {
+        games.addGames(player, [game]);
+        stats.addStatsFromGames(player, [game]);
+      })
     }
   };
 };
