@@ -10,9 +10,13 @@ After cloning repository:
 $ npm install
 $ npm start
 ```
+To get entire history     
+
+`$ npm run getHistory`
+
 Needs to include .env file with:
 ```
-MONGO_DB=link-to-your-db
+MONGO_DB=link-to-db
 PORT=port
 ```
 # Usage
