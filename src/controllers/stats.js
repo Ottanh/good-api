@@ -27,27 +27,21 @@ const addStatsFromGames = (player, games) => {
     SCISSORS: 0
   };
 
-  // Loop through games and add them to playerStats
-  for (let i = 0; i < games.length; i++) {
-    const game = games[i];
-    let playerAB;
+  //add player's stats from each game to playerStats
+  games.forEach(game => {
+    let playerAB = player === game.playerA.name 
+      ? game.playerA 
+      : game.playerB;
 
-    // Check if player is playerA or playerB
-    const winner = getWinner(game.playerA, game.playerB);
-    if (player === game.playerA) {
-      playerAB = game.playerA;
-    } else {
-      playerAB = game.playerB;
-    }
-
-    if(playerAB.name === winner){
+    if(playerAB.name === getWinner(game.playerA, game.playerB)){
       playerStats.wins += 1;
     }
     playerStats.games += 1;
     playerStats[playerAB.played] += 1;
-  }
+  });
 
-  // Increment player's record by values in 'playerStats'
+
+  // Increment player's record by values in playerStats
   Stats.updateOne({ _id: player }, { $inc: {
     wins: playerStats.wins,
     games: playerStats.games,
