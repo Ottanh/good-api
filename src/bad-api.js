@@ -23,24 +23,19 @@ const fetchCompleteHistory = async (cursor) => {
   const players = {};
 
   // Get data from bad api
-  const response = await axios
-    .get(`https://bad-api-assignment.reaktor.com${cursor}`);
-  let page = response.data;
-  data.concat(page.data);
-
-  let j = 0;
+  let i = 0;
   do {
     const response = await axios
-      .get(`https://bad-api-assignment.reaktor.com${page.cursor}`);
+      .get(`https://bad-api-assignment.reaktor.com${cursor}`);
     page = response.data;
+    cursor = page.cursor;
     console.log(data.length);
     data = data.concat(page.data);
-    j++;
-  } while (page.cursor !== null && j < 100);
+    i++;
+  } while (page.cursor !== null && i < 100);
 
   // Refining data into 'players'
-  for (let i = 0; i < data.length; i++) {
-    const game = data[i];
+  data.forEach(game => {
     const playerA = game.playerA.name;
     const playerB = game.playerB.name;
 
@@ -48,9 +43,8 @@ const fetchCompleteHistory = async (cursor) => {
     players[playerA] = (players[playerA] === undefined) ? [game] : players[playerA].concat(game);
     // Add game to playerB's record
     players[playerB] = (players[playerB] === undefined) ? [game] : players[playerB].concat(game);
+  })
 
-    data[i] = null;
-  }
 
   // Add games to database
   for (const player in players) {
@@ -58,7 +52,6 @@ const fetchCompleteHistory = async (cursor) => {
     games.addGames(player, players[player]);
     stats.addStatsFromGames(player, players[player]);
     await new Promise(resolve => setTimeout(resolve, 500));
-    players[player] = null;
   }
 
   if(page.cursor !== null){
