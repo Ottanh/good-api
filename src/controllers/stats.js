@@ -1,3 +1,4 @@
+const { response } = require('express');
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
@@ -17,7 +18,7 @@ const Stats = mongoose.model('Stats', playerStatsSchema);
 /**
  * Adds stats from all games given to players's record.
  */
-const addStatsFromGames = (player, games) => {
+const addStatsFromGames = async (player, games) => {
   const playerStats = {
     _id: player,
     wins: 0,
@@ -40,42 +41,28 @@ const addStatsFromGames = (player, games) => {
     playerStats[playerAB.played] += 1;
   });
 
+  try {
+    // Increment player's record by values in playerStats
+    await Stats.updateOne({ _id: player }, { $inc: {
+      wins: playerStats.wins,
+      games: playerStats.games,
+      ROCK: playerStats.ROCK,
+      PAPER: playerStats.PAPER,
+      SCISSORS: playerStats.SCISSORS 
+      }}, { upsert: true, new: true });
+  } catch (e) {
+    console.log(e.message);
+  }
 
-  // Increment player's record by values in playerStats
-  Stats.updateOne({ _id: player }, { $inc: {
-    wins: playerStats.wins,
-    games: playerStats.games,
-    ROCK: playerStats.ROCK,
-    PAPER: playerStats.PAPER,
-    SCISSORS: playerStats.SCISSORS 
-    }}, { upsert: true, new: true }, function (err) {
-    if (err) {
-      if (err.code === 11000) {
-        // Another upsert occurred during the upsert, try again.
-        Stats.updateOne({ _id: player }, { $inc: {
-          wins: playerStats.wins,
-          games: playerStats.games,
-          ROCK: playerStats.ROCK,
-          PAPER: playerStats.PAPER,
-          SCISSORS: playerStats.SCISSORS
-          } },
-          function (err) {
-            if (err) {
-              console.trace(err);
-            }
-          });
-      } else {
-        console.trace(err);
-      }
-    }
-  });
-};
+}
 
-router.get('/stats', (req, res) => {
-  Stats.find({})
-    .then(stats => {
-      res.json(stats);
-    });
+router.get('/stats', async (req, res) => {
+  try {
+    const stats = await find({});
+    res.json(stats);
+  } catch (e) {
+    console.log(e.message);
+  }
 });
 
 module.exports = { router, addStatsFromGames};

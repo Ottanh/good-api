@@ -23,31 +23,23 @@ const Games = mongoose.model('Games', playerGamesSchema);
 /**
  * Add all games to player's record.
  */
-const addGames = (player, games) => {
-  // Push games to player's record.
-  Games.updateOne({ _id: player }, { $addToSet: { games: games } }, { upsert: true, new: true }, function (err) {
-    if (err) {
-      if (err.code === 11000) {
-        // Another upsert occurred during the upsert, try again.
-        Games.updateOne({ _id: player }, { $addToSet: { games: games } },
-          function (err) {
-            if (err) {
-              console.trace(err);
-            }
-          });
-      } else {
-        console.trace(err);
-      }
-    }
-  });
+const addGames = async (player, games) => {
+  try {
+    // Push games to player's record.
+    await Games.updateOne({ _id: player }, { $addToSet: { games: games } }, { upsert: true, new: true });
+  } catch (e) {
+    console.log(e.message);
+  }
 };
 
 
-router.get('/games/:id', (req, res) => {
-  Games.findById(req.params.id)
-    .then(stats => {
-      res.json(stats);
-    });
+router.get('/games/:id', async (req, res) => {
+  try {
+    const games = await Games.findById(req.params.id);
+    res.json(stats);
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 module.exports = { router, addGames};
