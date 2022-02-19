@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --max-old-space-size=700 ./src/app.js --fetchHistory",
-    "quickStart": "node ./src/app.js",
+    "start": "node ./src/app.js",
+    "getHistory": "node --max-old-space-size=700 ./src/app.js --fetchHistory",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
