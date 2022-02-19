@@ -58,7 +58,7 @@ const addStatsFromGames = async (player, games) => {
 
 router.get('/stats', async (req, res) => {
   try {
-    const stats = await find({});
+    const stats = await Stats.find({});
     res.json(stats);
   } catch (e) {
     console.log(e.message);

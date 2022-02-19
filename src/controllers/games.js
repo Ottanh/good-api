@@ -36,7 +36,7 @@ const addGames = async (player, games) => {
 router.get('/games/:id', async (req, res) => {
   try {
     const games = await Games.findById(req.params.id);
-    res.json(stats);
+    res.json(games);
   } catch (e) {
     console.log(e);
   }
