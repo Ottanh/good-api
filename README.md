@@ -10,7 +10,7 @@ After cloning repository:
 $ npm install
 $ npm start
 ```
-To get entire history from bad api
+To get entire history      
 `$ npm run getHistory`
 
 Needs to include .env file with:
