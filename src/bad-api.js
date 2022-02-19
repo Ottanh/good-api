@@ -49,8 +49,15 @@ const fetchCompleteHistory = async (cursor) => {
   // Add games to database
   for (const player in players) {
     console.log(player);
+<<<<<<< HEAD
     await games.addGames(player, players[player]);
     await stats.addStatsFromGames(player, players[player]);
+=======
+    games.addGames(player, players[player]);
+    stats.addStatsFromGames(player, players[player]);
+    await new Promise(resolve => setTimeout(resolve, 500));
+    players[player] = null;
+>>>>>>> 0808d37f3269dbeaf393fe9b777ce46c91e1ec7a
   }
 
   if(page.cursor !== null){
